@@ -14,10 +14,18 @@ defmodule TidetrackerWeb.Router do
     plug :accepts, ["json"]
   end
 
+  @meet_pages [
+    Heatsheet: "#",
+    Results: "#",
+    Scoreboard: "#"
+  ]
+
+  def meet_pages(), do: @meet_pages
+
   scope "/", TidetrackerWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    get "/", PageController, :home, assigns: %{pages: @meet_pages, hide_nav: true}
   end
 
   # Other scopes may use custom stacks.
