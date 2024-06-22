@@ -257,7 +257,7 @@ defmodule TidetrackerWeb.CoreComponents do
       href={@url}
       class={[
         "phx-submit-loading:opacity-75 rounded-md py-2.5 px-3.5",
-        TidetrackerWeb.Utils.brand_bg_gradient() |> dbg,
+        TidetrackerWeb.Utils.brand_bg_gradient(),
         "hover:from-violet-800 hover:to-violet-500",
         "font-semibold shadow-sm leading-6 text-white active:text-white/80",
         "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400",

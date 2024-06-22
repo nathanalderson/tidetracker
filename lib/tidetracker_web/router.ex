@@ -25,7 +25,9 @@ defmodule TidetrackerWeb.Router do
   scope "/", TidetrackerWeb do
     pipe_through :browser
 
-    get "/", PageController, :home, assigns: %{pages: @meet_pages, hide_nav: true}
+    live_session :default do
+      live "/", HomeLive
+    end
   end
 
   # Other scopes may use custom stacks.
