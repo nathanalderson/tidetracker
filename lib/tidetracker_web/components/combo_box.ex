@@ -1,5 +1,5 @@
 defmodule TidetrackerWeb.Components.ComboBox do
-  use Phoenix.Component
+  use TidetrackerWeb, :component
 
   attr :label, :string, required: true
   attr :items, :list, required: true
@@ -12,8 +12,8 @@ defmodule TidetrackerWeb.Components.ComboBox do
     ~H"""
     <div class={@class}>
       <label class={@label_class} for={@id || @name}><%= @label %></label>
-      <select id={@id || @name} name={@name} class="rounded-lg">
-        <option :for={{value, title, secondary} <- @items} value={value}>
+      <select id={@id || @name} name={@name} class="rounded-lg text-sm bg-gray-800 text-white">
+        <option :for={{value, title, secondary} <- @items} value={value} class="text-sm">
           <%= title %> (<%= secondary %>)
         </option>
       </select>

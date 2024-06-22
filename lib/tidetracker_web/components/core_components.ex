@@ -231,14 +231,42 @@ defmodule TidetrackerWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 rounded-lg bg-zinc-900 hover:bg-zinc-700 py-2 px-3",
-        "text-sm font-semibold leading-6 text-white active:text-white/80",
+        "phx-submit-loading:opacity-75 rounded-md py-2.5 px-3.5",
+        "bg-gradient-to-r from-violet-900 to-violet-600",
+        "hover:from-violet-800 hover:to-violet-500",
+        "text-sm font-semibold shadow-sm leading-6 text-white active:text-white/80",
+        "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400",
         @class
       ]}
       {@rest}
     >
       <%= render_slot(@inner_block) %>
     </button>
+    """
+  end
+
+  attr :url, :string, default: nil
+  attr :class, :string, default: nil
+  attr :rest, :global, include: ~w(disabled form name value)
+
+  slot :inner_block, required: true
+
+  def link_button(assigns) do
+    ~H"""
+    <a
+      href={@url}
+      class={[
+        "phx-submit-loading:opacity-75 rounded-md py-2.5 px-3.5",
+        TidetrackerWeb.Utils.brand_bg_gradient() |> dbg,
+        "hover:from-violet-800 hover:to-violet-500",
+        "font-semibold shadow-sm leading-6 text-white active:text-white/80",
+        "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400",
+        @class
+      ]}
+      {@rest}
+    >
+      <%= render_slot(@inner_block) %>
+    </a>
     """
   end
 
@@ -278,8 +306,7 @@ defmodule TidetrackerWeb.CoreComponents do
     values: ~w(checkbox color date datetime-local email file month number password
                range search select tel text textarea time url week)
 
-  attr :field, Phoenix.HTML.FormField,
-    doc: "a form field struct retrieved from the form, for example: @form[:email]"
+  attr :field, Phoenix.HTML.FormField, doc: "a form field struct retrieved from the form, for example: @form[:email]"
 
   attr :errors, :list, default: []
   attr :checked, :boolean, doc: "the checked flag for checkbox inputs"
@@ -287,8 +314,7 @@ defmodule TidetrackerWeb.CoreComponents do
   attr :options, :list, doc: "the options to pass to Phoenix.HTML.Form.options_for_select/2"
   attr :multiple, :boolean, default: false, doc: "the multiple flag for select inputs"
 
-  attr :rest, :global,
-    include: ~w(accept autocomplete capture cols disabled form list max maxlength min minlength
+  attr :rest, :global, include: ~w(accept autocomplete capture cols disabled form list max maxlength min minlength
                 multiple pattern placeholder readonly required rows size step)
 
   def input(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
@@ -559,10 +585,7 @@ defmodule TidetrackerWeb.CoreComponents do
   def back(assigns) do
     ~H"""
     <div class="mt-16">
-      <.link
-        navigate={@navigate}
-        class="text-sm font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
-      >
+      <.link navigate={@navigate} class="text-sm font-semibold leading-6 text-zinc-900 hover:text-zinc-700">
         <.icon name="hero-arrow-left-solid" class="h-3 w-3" />
         <%= render_slot(@inner_block) %>
       </.link>
@@ -604,8 +627,7 @@ defmodule TidetrackerWeb.CoreComponents do
       to: selector,
       time: 300,
       transition:
-        {"transition-all transform ease-out duration-300",
-         "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95",
+        {"transition-all transform ease-out duration-300", "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95",
          "opacity-100 translate-y-0 sm:scale-100"}
     )
   end
@@ -615,8 +637,7 @@ defmodule TidetrackerWeb.CoreComponents do
       to: selector,
       time: 200,
       transition:
-        {"transition-all transform ease-in duration-200",
-         "opacity-100 translate-y-0 sm:scale-100",
+        {"transition-all transform ease-in duration-200", "opacity-100 translate-y-0 sm:scale-100",
          "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"}
     )
   end

@@ -66,6 +66,14 @@ defmodule TidetrackerWeb do
     end
   end
 
+  def component do
+    quote do
+      use Phoenix.Component
+
+      unquote(html_helpers())
+    end
+  end
+
   def html do
     quote do
       use Phoenix.Component
@@ -86,9 +94,12 @@ defmodule TidetrackerWeb do
       # Core UI components and translation
       import TidetrackerWeb.CoreComponents
       import TidetrackerWeb.Gettext
+      import TidetrackerWeb.Utils
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
+
+      alias TidetrackerWeb.Components
 
       # Routes generation with the ~p sigil
       unquote(verified_routes())

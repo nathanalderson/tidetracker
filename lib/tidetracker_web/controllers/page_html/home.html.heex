@@ -1,18 +1,14 @@
 <div class="py-24 sm:py-32 lg:pb-40">
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
     <div class="mx-auto max-w-2xl text-center">
-      <h1 class="text-4xl font-bold tracking-tight text-white sm:text-6xl">Welcome to TideTracker</h1>
-      <div class="mx-auto mt-4 max-w-max">
-        <TidetrackerWeb.Components.SelectMeet.select_meet />
+      <h1 class="flex flex-col text-4xl font-bold font-display text-white sm:text-6xl">
+        <span class={"text-transparent bg-clip-text #{orange_bg_gradient()}"}>TideTracker</span>
+      </h1>
+      <div class="mx-auto mt-4 max-w-max text-sm">
+        <Components.SelectMeet.select_meet />
       </div>
       <div class="mt-10 flex flex-col items-center justify-center gap-y-6">
-        <a
-          :for={{page, url} <- @pages}
-          href={url}
-          class="w-40 rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
-        >
-          <%= page %>
-        </a>
+        <.link_button :for={{page, url} <- @pages} url={url} class="w-60"><%= page %></.link_button>
       </div>
     </div>
   </div>

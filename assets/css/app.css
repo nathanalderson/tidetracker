@@ -2,4 +2,5 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+@import url('https://fonts.googleapis.com/css2?family=Kreon:wght@300..700&family=Rubik:ital,wght@0,300..900;1,300..900&family=Syncopate:wght@400;700&display=swap');
 /* This file is for your main application CSS */

@@ -2,6 +2,7 @@
 // https://tailwindcss.com/docs/configuration
 
 const plugin = require("tailwindcss/plugin")
+const defaultTheme = require("tailwindcss/defaultTheme");
 const fs = require("fs")
 const path = require("path")
 
@@ -14,9 +15,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        brand: "#FD4F00",
+        "brand": "#7c3aed",
+        "brand-darker": "#4c1d95",
       }
     },
+    fontFamily: {
+      sans: ["Rubik", ...defaultTheme.fontFamily.sans],
+      serif: ["Kreon", ...defaultTheme.fontFamily.serif],
+      display: ["Syncopate", ...defaultTheme.fontFamily.sans],
+    }
   },
   plugins: [
     require("@tailwindcss/forms"),
