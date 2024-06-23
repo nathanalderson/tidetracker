@@ -22,6 +22,11 @@ config :tidetracker, TidetrackerWeb.Endpoint,
   pubsub_server: Tidetracker.PubSub,
   live_view: [signing_salt: "tUrsUbmI"]
 
+# Ash
+config :tidetracker, :ash_domains, [Tidetracker.Meets]
+
+config :ash, :default_belongs_to_type, :integer
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
