@@ -1,5 +1,5 @@
 defmodule Tidetracker.Meets.MeetTeam do
-  use Tidetracker.Meets, :resource
+  use Tidetracker.Meets.Resource, table: "meet_team"
   alias Tidetracker.Meets.Meet
   alias Tidetracker.Meets.Team
 

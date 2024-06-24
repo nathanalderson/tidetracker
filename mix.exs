@@ -55,7 +55,8 @@ defmodule Tidetracker.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
       {:ash, "~> 3.0"},
-      {:picosat_elixir, "~> 0.2"}
+      {:picosat_elixir, "~> 0.2"},
+      {:ash_sqlite, "~> 0.1.3"}
     ]
   end
 

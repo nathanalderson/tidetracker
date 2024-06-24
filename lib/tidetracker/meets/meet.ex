@@ -1,5 +1,5 @@
 defmodule Tidetracker.Meets.Meet do
-  use Tidetracker.Meets, :resource
+  use Tidetracker.Meets.Resource, table: "meet"
   alias Tidetracker.Meets.MeetTeam
   alias Tidetracker.Meets.Team
 
@@ -10,7 +10,11 @@ defmodule Tidetracker.Meets.Meet do
 
   attributes do
     integer_primary_key :id
-    attribute :date, :date
+
+    attribute :date, :date do
+      allow_nil? false
+      public? true
+    end
   end
 
   relationships do

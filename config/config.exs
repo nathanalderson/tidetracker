@@ -24,6 +24,7 @@ config :tidetracker, TidetrackerWeb.Endpoint,
 
 # Ash
 config :tidetracker, :ash_domains, [Tidetracker.Meets]
+config :tidetracker, :ash_apis, [Tidetracker.Meets]
 
 config :ash, :default_belongs_to_type, :integer
 

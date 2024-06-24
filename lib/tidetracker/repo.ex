@@ -1,5 +1,4 @@
 defmodule Tidetracker.Repo do
-  use Ecto.Repo,
-    otp_app: :tidetracker,
-    adapter: Ecto.Adapters.SQLite3
+  use AshSqlite.Repo,
+    otp_app: :tidetracker
 end
