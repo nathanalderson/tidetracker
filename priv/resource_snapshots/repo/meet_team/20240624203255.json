@@ -11,8 +11,8 @@
         "on_delete": null,
         "multitenancy": {
           "global": null,
-          "strategy": null,
-          "attribute": null
+          "attribute": null,
+          "strategy": null
         },
         "primary_key?": true,
         "destination_attribute": "id",
@@ -36,8 +36,8 @@
         "on_delete": null,
         "multitenancy": {
           "global": null,
-          "strategy": null,
-          "attribute": null
+          "attribute": null,
+          "strategy": null
         },
         "primary_key?": true,
         "destination_attribute": "id",
@@ -52,13 +52,13 @@
     }
   ],
   "table": "meet_team",
-  "hash": "CF23BEC46CAF347DC255FD074339A0DF0D6202E64848EF7C385F803102C8454B",
+  "hash": "A1C1F99DC775D2A648831F34C28230A6E9E84792519FC38BABBF0E27BAF93095",
   "repo": "Elixir.Tidetracker.Repo",
   "identities": [],
   "multitenancy": {
     "global": null,
-    "strategy": null,
-    "attribute": null
+    "attribute": null,
+    "strategy": null
   },
   "base_filter": null,
   "custom_indexes": [],

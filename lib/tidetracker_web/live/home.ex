@@ -44,6 +44,6 @@ defmodule TidetrackerWeb.HomeLive do
   def mount(params, _session, socket) do
     dbg(params)
     latest_meet = @meets[3]
-    {:ok, redirect(socket, to: ~p"/?meet-id=#{latest_meet[0]}")}
+    {:ok, redirect(socket, to: ~p"/?meet-id=#{latest_meet |> elem(0)}")}
   end
 end

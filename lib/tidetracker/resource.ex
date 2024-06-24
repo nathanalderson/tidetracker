@@ -3,7 +3,10 @@ defmodule Tidetracker.Meets.Resource do
     quote do
       use Ash.Resource,
         domain: Tidetracker.Meets,
-        data_layer: AshSqlite.DataLayer
+        data_layer: AshSqlite.DataLayer,
+        extensions: [
+          AshAdmin.Resource
+        ]
 
       sqlite do
         table unquote(opts[:table])

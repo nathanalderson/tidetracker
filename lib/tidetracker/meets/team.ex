@@ -2,31 +2,20 @@ defmodule Tidetracker.Meets.Team do
   use Tidetracker.Meets.Resource, table: "team"
   alias Tidetracker.Meets.MeetTeam
   alias Tidetracker.Meets.Meet
-
-  actions do
-    defaults [:read, :create]
-  end
+  alias Tidetracker.Meets.Pool
 
   attributes do
     integer_primary_key :id
 
-    attribute :pool_name, :string do
-      allow_nil? false
-      public? true
-    end
-
-    attribute :pool_short_name, :string do
-      allow_nil? false
-      public? true
-    end
-
-    attribute :team_name, :string do
+    attribute :name, :string do
       allow_nil? false
       public? true
     end
   end
 
   relationships do
+    belongs_to :home_pool, Pool
+
     many_to_many :meets, Meet do
       through MeetTeam
       source_attribute_on_join_resource :team_id
@@ -34,7 +23,17 @@ defmodule Tidetracker.Meets.Team do
     end
   end
 
+  admin do
+    relationship_display_fields([:name])
+  end
+
   actions do
-    default_accept [:team_name, :pool_short_name, :pool_name]
+    defaults [:read, :destroy, update: :*]
+
+    create :create do
+      accept :*
+      argument :home_pool, :map
+      change manage_relationship(:home_pool, :home_pool, type: :append_and_remove)
+    end
   end
 end

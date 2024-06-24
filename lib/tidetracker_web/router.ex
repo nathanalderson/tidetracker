@@ -1,5 +1,6 @@
 defmodule TidetrackerWeb.Router do
   use TidetrackerWeb, :router
+  import AshAdmin.Router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -28,6 +29,11 @@ defmodule TidetrackerWeb.Router do
     live_session :default do
       live "/", HomeLive
     end
+  end
+
+  scope "/" do
+    pipe_through :browser
+    ash_admin "/admin"
   end
 
   # Other scopes may use custom stacks.

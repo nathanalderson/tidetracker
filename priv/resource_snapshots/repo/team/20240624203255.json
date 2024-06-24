@@ -14,7 +14,7 @@
       "default": "nil",
       "size": null,
       "type": "text",
-      "source": "pool_name",
+      "source": "name",
       "references": null,
       "allow_nil?": false,
       "generated?": false,
@@ -23,32 +23,37 @@
     {
       "default": "nil",
       "size": null,
-      "type": "text",
-      "source": "pool_short_name",
-      "references": null,
-      "allow_nil?": false,
-      "generated?": false,
-      "primary_key?": false
-    },
-    {
-      "default": "nil",
-      "size": null,
-      "type": "text",
-      "source": "team_name",
-      "references": null,
-      "allow_nil?": false,
+      "type": "bigint",
+      "source": "home_pool_id",
+      "references": {
+        "name": "team_home_pool_id_fkey",
+        "table": "pool",
+        "on_delete": null,
+        "multitenancy": {
+          "global": null,
+          "attribute": null,
+          "strategy": null
+        },
+        "primary_key?": true,
+        "destination_attribute": "id",
+        "deferrable": false,
+        "destination_attribute_default": null,
+        "destination_attribute_generated": null,
+        "on_update": null
+      },
+      "allow_nil?": true,
       "generated?": false,
       "primary_key?": false
     }
   ],
   "table": "team",
-  "hash": "DFD9D51E4F2D1E40697FC5BBEBDED29F090ACEB6C955D988247C5DE086CB478F",
+  "hash": "C0EE99C63440CF83C79AA9B9D1567149958CB85982E9B17CE55A2574ED839C4A",
   "repo": "Elixir.Tidetracker.Repo",
   "identities": [],
   "multitenancy": {
     "global": null,
-    "strategy": null,
-    "attribute": null
+    "attribute": null,
+    "strategy": null
   },
   "base_filter": null,
   "custom_indexes": [],

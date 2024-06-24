@@ -17,6 +17,10 @@ defmodule Tidetracker.Meets.Meet do
     end
   end
 
+  actions do
+    default_accept [:date]
+  end
+
   relationships do
     many_to_many :teams, Team do
       through MeetTeam

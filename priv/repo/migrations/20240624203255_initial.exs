@@ -1,4 +1,4 @@
-defmodule Tidetracker.Repo.Migrations.InitialTeamsAndMeets do
+defmodule Tidetracker.Repo.Migrations.Initial do
   @moduledoc """
   Updates resources based on their most recent snapshots.
 
@@ -9,9 +9,16 @@ defmodule Tidetracker.Repo.Migrations.InitialTeamsAndMeets do
 
   def up do
     create table(:team, primary_key: false) do
-      add :team_name, :text, null: false
-      add :pool_short_name, :text, null: false
-      add :pool_name, :text, null: false
+      add :home_pool_id,
+          references(:pool, column: :id, name: "team_home_pool_id_fkey", type: :bigint)
+
+      add :name, :text, null: false
+      add :id, :bigserial, null: false, primary_key: true
+    end
+
+    create table(:pool, primary_key: false) do
+      add :short_name, :text, null: false
+      add :name, :text, null: false
       add :id, :bigserial, null: false, primary_key: true
     end
 
@@ -39,6 +46,10 @@ defmodule Tidetracker.Repo.Migrations.InitialTeamsAndMeets do
     drop constraint(:meet_team, "meet_team_team_id_fkey")
 
     drop table(:meet_team)
+
+    drop table(:pool)
+
+    drop constraint(:team, "team_home_pool_id_fkey")
 
     drop table(:team)
   end

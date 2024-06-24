@@ -13,22 +13,32 @@
     {
       "default": "nil",
       "size": null,
-      "type": "date",
-      "source": "date",
+      "type": "text",
+      "source": "name",
+      "references": null,
+      "allow_nil?": false,
+      "generated?": false,
+      "primary_key?": false
+    },
+    {
+      "default": "nil",
+      "size": null,
+      "type": "text",
+      "source": "short_name",
       "references": null,
       "allow_nil?": false,
       "generated?": false,
       "primary_key?": false
     }
   ],
-  "table": "meet",
-  "hash": "5818763E250691930D9E669DAF361A6A8618B2D35B8A6727D43FCD4BCD3F250D",
+  "table": "pool",
+  "hash": "49FC2111A846F24396DD79C1B55826C0AC5F2F95C14B591F6B5F43EA6E5AF737",
   "repo": "Elixir.Tidetracker.Repo",
   "identities": [],
   "multitenancy": {
     "global": null,
-    "strategy": null,
-    "attribute": null
+    "attribute": null,
+    "strategy": null
   },
   "base_filter": null,
   "custom_indexes": [],
