@@ -57,7 +57,8 @@ defmodule Tidetracker.MixProject do
       {:ash, "~> 3.0"},
       {:picosat_elixir, "~> 0.2"},
       {:ash_sqlite, "~> 0.1.3"},
-      {:ash_admin, "~> 0.11.1"}
+      {:ash_admin, "~> 0.11.1"},
+      {:timex, "~> 3.7"}
     ]
   end
 

@@ -6,7 +6,18 @@ defmodule TidetrackerWeb.Components.SelectMeet do
 
   def select_meet(assigns) do
     ~H"""
-    <Components.ComboBox.combo_box label="Select a meet" name="select-meet" items={@meets} label_class={@label_class} />
+    <Components.ComboBox.combo_box
+      label="Select a meet"
+      name="select-meet"
+      items={to_items(@meets)}
+      label_class={@label_class}
+    />
     """
+  end
+
+  defp to_items(meets) do
+    for meet <- meets do
+      {meet.id, meet.description, meet.date |> Timex.format!("{Mshort} {D}, {YYYY}")}
+    end
   end
 end

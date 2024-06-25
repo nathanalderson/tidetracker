@@ -27,6 +27,14 @@ defmodule Tidetracker.Meets.Team do
     relationship_display_fields([:name])
   end
 
+  preparations do
+    prepare build(load: [:home_pool, :description])
+  end
+
+  calculations do
+    calculate :description, :string, expr("#{home_pool.name} #{name}")
+  end
+
   actions do
     defaults [:read, :destroy, update: :*]
 

@@ -1,12 +1,7 @@
 defmodule TidetrackerWeb.HomeLive do
   use TidetrackerWeb, :live_view
   alias TidetrackerWeb.Router
-
-  @meets %{
-    1 => {1, "Meet 1", ~D"2024-06-01"},
-    2 => {2, "Meet 2", ~D"2024-06-02"},
-    3 => {3, "Meet 3", ~D"2024-06-03"}
-  }
+  alias Tidetracker.Meets.Meet
 
   def render(assigns) do
     ~H"""
@@ -30,20 +25,21 @@ defmodule TidetrackerWeb.HomeLive do
 
   def mount(_params = %{"meet-id" => meet_id}, _session, socket) do
     meet_id = meet_id |> String.to_integer()
+    meets = Meet.list!(query: [load: [:location, :teams, :description]])
+    meet = Ash.get!(Meet, meet_id)
 
     socket =
       socket
       |> assign(pages: Router.meet_pages())
       |> assign(hide_nav: true)
-      |> assign(meets: @meets)
-      |> assign(meet: @meets[meet_id])
+      |> assign(meets: meets)
+      |> assign(meet: meet)
 
     {:ok, socket}
   end
 
-  def mount(params, _session, socket) do
-    dbg(params)
-    latest_meet = @meets[3]
-    {:ok, redirect(socket, to: ~p"/?meet-id=#{latest_meet |> elem(0)}")}
+  def mount(_params, _session, socket) do
+    [meet | _] = Meet.list!()
+    {:ok, redirect(socket, to: ~p"/?meet-id=#{meet.id}")}
   end
 end

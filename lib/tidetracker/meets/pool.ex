@@ -1,6 +1,7 @@
 defmodule Tidetracker.Meets.Pool do
   use Tidetracker.Meets.Resource, table: "pool"
   alias Tidetracker.Meets.Team
+  alias Tidetracker.Meets.Meet
 
   attributes do
     integer_primary_key :id
@@ -23,6 +24,10 @@ defmodule Tidetracker.Meets.Pool do
   relationships do
     has_many :teams, Team do
       destination_attribute :home_pool_id
+    end
+
+    has_many :meets, Meet do
+      destination_attribute :location_id
     end
   end
 
