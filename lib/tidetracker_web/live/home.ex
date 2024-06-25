@@ -36,7 +36,7 @@ defmodule TidetrackerWeb.HomeLive do
           |> assign(pages: Router.meet_pages())
           |> assign(hide_nav: true)
           |> assign(meets: meets)
-          |> assign(meet: meet |> dbg)
+          |> assign(meet: meet)
 
         {:error, reason} ->
           Logger.warning("Failed to load meet: #{inspect(reason)}")
@@ -49,5 +49,13 @@ defmodule TidetrackerWeb.HomeLive do
   def mount(_params, _session, socket) do
     meet = Ash.read_first!(Meet)
     {:ok, redirect(socket, to: ~p"/?meet-id=#{meet.id}")}
+  end
+
+  def handle_params(_params, _uri, socket) do
+    {:noreply, socket}
+  end
+
+  def handle_event("select_meet", %{"select-meet" => meet_id}, socket) do
+    {:noreply, push_patch(socket, to: ~p"/?meet-id=#{meet_id}")}
   end
 end

@@ -9,6 +9,7 @@ defmodule TidetrackerWeb.Components.SelectMeet do
   def select_meet(assigns) do
     ~H"""
     <Components.ComboBox.combo_box
+      event="select_meet"
       label="Select a meet"
       name="select-meet"
       items={to_items(@meets)}
