@@ -10,12 +10,14 @@ defmodule TidetrackerWeb.Admin.AdminLive do
         <.link_button url={~p"/admin/meets"} class="w-60">Manage Meets</.link_button>
       </div>
       <:footer_link>
-        <Components.LargeTitleFrame.footer_link patch={~p"/admin"} icon_name="hero-cog-6-tooth">
+        <Components.Footer.footer_link patch={~p"/admin"} icon_name="hero-cog-6-tooth">
           Admin home
-        </Components.LargeTitleFrame.footer_link>
-        <Components.LargeTitleFrame.footer_link patch={~p"/admin"} icon_name="hero-cog">
+        </Components.Footer.footer_link>
+      </:footer_link>
+      <:footer_link>
+        <Components.Footer.footer_link patch={~p"/ash-admin"} icon_name="hero-cog">
           Ash Admin
-        </Components.LargeTitleFrame.footer_link>
+        </Components.Footer.footer_link>
       </:footer_link>
     </LargeTitleFrame.default>
     """

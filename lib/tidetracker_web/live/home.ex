@@ -14,9 +14,11 @@ defmodule TidetrackerWeb.HomeLive do
       <div class="mt-10 flex flex-col items-center justify-center gap-y-6">
         <.link_button :for={{page, url} <- @pages} url={url} class="w-60"><%= page %></.link_button>
       </div>
-      <:footer>
-        <.link href={~p"/admin"}>admin login <.icon name="hero-chevron-right" class="h-4 w-4" /></.link>
-      </:footer>
+      <:footer_link>
+        <Components.Footer.footer_link patch={~p"/admin"} icon_name="hero-cog-6-tooth">
+          Admin home
+        </Components.Footer.footer_link>
+      </:footer_link>
     </LargeTitleFrame.default>
     """
   end
