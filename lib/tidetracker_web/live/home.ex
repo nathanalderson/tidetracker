@@ -20,6 +20,11 @@ defmodule TidetrackerWeb.HomeLive do
           </div>
         </div>
       </div>
+      <div class="mt-40 text-gray-500 max-w-lg mx-auto flex flex-col items-center hover:text-gray-400 active:text-gray-600">
+        <div>
+          <.link href={~p"/admin"}>admin login <.icon name="hero-chevron-right" class="h-4 w-4" /></.link>
+        </div>
+      </div>
     </div>
     """
   end

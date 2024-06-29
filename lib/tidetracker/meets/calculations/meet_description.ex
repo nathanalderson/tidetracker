@@ -3,7 +3,7 @@ defmodule Tidetracker.Meets.Calculations.MeetDescription do
 
   @impl true
   def load(_query, _opts, _context) do
-    [:location, teams: :home_pool]
+    [location: :name, teams: :home_pool]
   end
 
   @impl true

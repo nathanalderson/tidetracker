@@ -31,9 +31,16 @@ defmodule TidetrackerWeb.Router do
     end
   end
 
+  scope "/admin", TidetrackerWeb.Admin, assigns: %{page_title: "Admin"} do
+    pipe_through [:browser]
+
+    live "/", AdminLive
+    live "/meets", MeetsLive
+  end
+
   scope "/" do
     pipe_through :browser
-    ash_admin "/admin"
+    ash_admin "/ash-admin"
   end
 
   # Other scopes may use custom stacks.
