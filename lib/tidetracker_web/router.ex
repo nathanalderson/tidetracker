@@ -36,6 +36,7 @@ defmodule TidetrackerWeb.Router do
 
     live "/", AdminLive
     live "/meets", MeetsLive
+    live "/meet/:meet_id", MeetLive
   end
 
   scope "/" do

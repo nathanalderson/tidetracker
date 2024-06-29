@@ -5,7 +5,7 @@ defmodule TidetrackerWeb.Admin.MeetsLive do
 
   def render(assigns) do
     ~H"""
-    <Components.LargeTitleFrame.default subtitle="Admin">
+    <Components.LargeTitleFrame.default subtitle="Admin" back_link={[patch: ~p"/admin"]}>
       <.meets meets={@meets} />
       <:footer_link>
         <Components.Footer.footer_link patch={~p"/admin"} icon_name="hero-cog-6-tooth">
