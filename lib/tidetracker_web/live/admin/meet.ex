@@ -5,14 +5,15 @@ defmodule TidetrackerWeb.Admin.MeetLive do
 
   def render(assigns) do
     ~H"""
-    <%= @meet.description %>
+    <div class="m-2">
+      <%= @meet.description %>
+    </div>
     """
   end
 
   def mount(params, _session, socket) do
     socket =
       socket
-      |> assign(hide_nav: true)
       |> assign(meet: Ash.get!(Meet, params["meet_id"], load: [:description]))
 
     {:ok, socket}

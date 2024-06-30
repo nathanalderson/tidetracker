@@ -15,14 +15,6 @@ defmodule TidetrackerWeb.Router do
     plug :accepts, ["json"]
   end
 
-  @meet_pages [
-    Heatsheet: "#",
-    Results: "#",
-    Scoreboard: "#"
-  ]
-
-  def meet_pages(), do: @meet_pages
-
   scope "/", TidetrackerWeb do
     pipe_through :browser
 
@@ -34,9 +26,11 @@ defmodule TidetrackerWeb.Router do
   scope "/admin", TidetrackerWeb.Admin, assigns: %{page_title: "Admin"} do
     pipe_through [:browser]
 
-    live "/", AdminLive
-    live "/meets", MeetsLive
-    live "/meet/:meet_id", MeetLive
+    live_session :admin, layout: {TidetrackerWeb.Layouts, :admin} do
+      live "/", AdminLive
+      live "/meets", MeetsLive
+      live "/meet/:meet_id", MeetLive
+    end
   end
 
   scope "/" do

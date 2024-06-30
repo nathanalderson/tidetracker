@@ -2,12 +2,11 @@ defmodule TidetrackerWeb.HomeLive do
   use TidetrackerWeb, :live_view
   require Logger
   alias TidetrackerWeb.Components.LargeTitleFrame
-  alias TidetrackerWeb.Router
   alias Tidetracker.Meets.Meet
 
   def render(assigns) do
     ~H"""
-    <LargeTitleFrame.default subtitle="Admin">
+    <LargeTitleFrame.default>
       <div class="mx-auto mt-4 max-w-max text-sm">
         <Components.SelectMeet.select_meet meets={@meets} selected={@meet} />
       </div>
@@ -32,7 +31,7 @@ defmodule TidetrackerWeb.HomeLive do
       case Ash.get(Meet, meet_id, query) do
         {:ok, meet} ->
           socket
-          |> assign(pages: Router.meet_pages())
+          |> assign(pages: Components.Navbar.meet_pages())
           |> assign(hide_nav: true)
           |> assign(meets: meets)
           |> assign(meet: meet)
