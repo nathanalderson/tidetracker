@@ -1,24 +1,33 @@
 defmodule TidetrackerWeb.HomeLive do
   use TidetrackerWeb, :live_view
   require Logger
-  alias TidetrackerWeb.Components.LargeTitleFrame
   alias Tidetracker.Meets.Meet
 
   def render(assigns) do
     ~H"""
-    <LargeTitleFrame.default>
-      <div class="mx-auto mt-4 max-w-max text-sm">
-        <Components.SelectMeet.select_meet meets={@meets} selected={@meet} />
+    <div class="py-24 sm:py-32 lg:pb-40">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <h1 class="flex flex-col text-4xl font-bold font-display text-white sm:text-6xl">
+            <span class={"text-transparent bg-clip-text #{orange_bg_gradient()}"}>Tidetracker</span>
+            <span :if={assigns[:subtitle]} class="text-brand text-2xl"><%= @subtitle %></span>
+          </h1>
+          <div class="mx-auto mt-4 max-w-max text-sm">
+            <Components.SelectMeet.select_meet meets={@meets} selected={@meet} />
+          </div>
+          <div class="mt-10 flex flex-col items-center justify-center gap-y-6">
+            <.link_button :for={{page, url} <- @pages} url={url} class="w-60"><%= page %></.link_button>
+          </div>
+        </div>
       </div>
-      <div class="mt-10 flex flex-col items-center justify-center gap-y-6">
-        <.link_button :for={{page, url} <- @pages} url={url} class="w-60"><%= page %></.link_button>
-      </div>
-      <:footer_link>
-        <Components.Footer.footer_link patch={~p"/admin"} icon_name="hero-cog-6-tooth">
-          Admin
-        </Components.Footer.footer_link>
-      </:footer_link>
-    </LargeTitleFrame.default>
+      <Components.Footer.footer>
+        <:footer_link>
+          <Components.Footer.footer_link patch={~p"/admin"} icon_name="hero-cog-6-tooth">
+            Admin
+          </Components.Footer.footer_link>
+        </:footer_link>
+      </Components.Footer.footer>
+    </div>
     """
   end
 
