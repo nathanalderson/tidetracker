@@ -1,6 +1,5 @@
 defmodule TidetrackerWeb.Admin.AdminLive do
   use TidetrackerWeb, :live_view
-  alias TidetrackerWeb.Components.LargeTitleFrame
   require Logger
 
   def render(assigns) do

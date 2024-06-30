@@ -21,7 +21,7 @@ defmodule TidetrackerWeb.Admin.MeetsLive do
         <div class="flex min-w-0 gap-x-4">
           <div class="min-w-0 flex-auto">
             <p class="text-sm font-semibold leading-6 text-white">
-              <a href="#">
+              <a href={~p"/admin/meet/#{meet.id}"}>
                 <span class="absolute inset-x-0 -top-px bottom-0"></span>
                 <%= meet.description %>
               </a>
@@ -44,7 +44,7 @@ defmodule TidetrackerWeb.Admin.MeetsLive do
   def mount(_params, _session, socket) do
     socket =
       socket
-      |> assign(meets: Meet.list!(load: [:description]))
+      |> assign(meets: Meet.list!())
 
     {:ok, socket}
   end

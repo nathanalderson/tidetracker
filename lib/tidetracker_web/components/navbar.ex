@@ -18,6 +18,7 @@ defmodule TidetrackerWeb.Components.Navbar do
 
   attr :pages, :list, default: []
   attr :hide_nav, :boolean, default: false
+  attr :back_link, :any
 
   def navbar(assigns) do
     ~H"""
@@ -76,6 +77,14 @@ defmodule TidetrackerWeb.Components.Navbar do
           </div>
         </div>
       </div>
+
+      <.link
+        :if={@back_link}
+        {@back_link}
+        class="absolute text-gray-400 flex items-center top-14 left-1 lg:top-20 lg:left-3"
+      >
+        <.icon name="hero-chevron-left" class="h-4 w-4" /> Back
+      </.link>
     </header>
     """
   end

@@ -29,7 +29,8 @@ defmodule TidetrackerWeb.Router do
     live_session :admin, layout: {TidetrackerWeb.Layouts, :admin} do
       live "/", AdminLive
       live "/meets", MeetsLive
-      live "/meet/:meet_id", MeetLive
+      live "/meet/:meet_id", MeetLive, :view
+      live "/meet/:meet_id/edit", MeetLive, :edit
     end
   end
 

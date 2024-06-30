@@ -30,7 +30,7 @@ defmodule Tidetracker.Meets.Meet do
   end
 
   preparations do
-    prepare build(sort: [date: :desc])
+    prepare build(sort: [date: :desc], load: [:description, :location, :teams])
   end
 
   calculations do
@@ -39,6 +39,7 @@ defmodule Tidetracker.Meets.Meet do
 
   code_interface do
     define :list, action: :read
+    define :update, action: :update
   end
 
   actions do

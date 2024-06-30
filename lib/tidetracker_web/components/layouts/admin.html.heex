@@ -1,6 +1,7 @@
 <TidetrackerWeb.Components.Navbar.navbar
   hide_nav={Map.get(assigns, :hide_nav, false)}
   pages={Map.get(assigns, :nav_pages, Components.Navbar.admin_pages())}
+  back_link={Map.get(assigns, :back_link, nil)}
 />
 <.flash_group flash={@flash} />
 <div class="bg-gray-900 min-h-screen overflow-clip">
@@ -13,6 +14,23 @@
       </div>
     </div>
     <%= @inner_content %>
+    <TidetrackerWeb.Components.Footer.footer>
+      <:footer_link>
+        <Components.Footer.footer_link patch={~p"/"} icon_name="hero-home">
+          Home
+        </Components.Footer.footer_link>
+      </:footer_link>
+      <:footer_link>
+        <Components.Footer.footer_link patch={~p"/admin"} icon_name="hero-cog-6-tooth">
+          Admin
+        </Components.Footer.footer_link>
+      </:footer_link>
+      <:footer_link>
+        <Components.Footer.footer_link patch={~p"/ash-admin"} icon_name="hero-cog">
+          Ash Admin
+        </Components.Footer.footer_link>
+      </:footer_link>
+    </TidetrackerWeb.Components.Footer.footer>
     <div
       class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
       aria-hidden="true"
