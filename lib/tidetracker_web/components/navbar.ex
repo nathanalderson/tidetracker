@@ -42,7 +42,7 @@ defmodule TidetrackerWeb.Components.Navbar do
           </a>
         </div>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-          <button type="button" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white">
+          <button type="button" class="relative -m-2.5 p-2.5 p-1 text-gray-400 hover:text-white">
             <span class="sr-only">Settings</span>
             <.icon name="hero-cog-6-tooth" class="h-6 w-6" />
           </button>

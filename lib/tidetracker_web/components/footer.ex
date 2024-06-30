@@ -8,7 +8,6 @@ defmodule TidetrackerWeb.Components.Footer do
     <footer class="text-gray-500">
       <div class="mx-auto max-w-7xl overflow-hidden px-6 py-20 sm:py-24 lg:px-8">
         <nav class="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12" aria-label="Footer">
-          <Components.Footer.global_footer_links />
           <%= for link <- @footer_link do %>
             <%= render_slot(link) %>
           <% end %>
@@ -37,12 +36,6 @@ defmodule TidetrackerWeb.Components.Footer do
     >
       <.icon name={@icon_name} class="h-5 w-5" /><%= render_slot(@inner_block) %>
     </.link>
-    """
-  end
-
-  def global_footer_links(assigns) do
-    ~H"""
-    <Components.Footer.footer_link href={~p"/"} icon_name="hero-home">Home</Components.Footer.footer_link>
     """
   end
 end

@@ -15,7 +15,7 @@ defmodule TidetrackerWeb.HomeLive do
       </div>
       <:footer_link>
         <Components.Footer.footer_link patch={~p"/admin"} icon_name="hero-cog-6-tooth">
-          Admin home
+          Admin
         </Components.Footer.footer_link>
       </:footer_link>
     </LargeTitleFrame.default>
