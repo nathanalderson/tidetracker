@@ -7,14 +7,18 @@ defmodule TidetrackerWeb.Admin.MeetLive do
     dbg(assigns.form.errors)
 
     ~H"""
-    <div class="mx-2 my-8 sm:my-20">
-      <h2 class="font-serif font-bold text-2xl text-brand-lighter"><%= @meet.description %></h2>
+    <div class="mx-2 my-12 sm:my-20">
+      <h2 class="font-serif font-bold text-2xl text-brand drop-shadow-lg"><%= @meet.description %></h2>
       <.simple_form for={@form} phx-submit="submit" phx-change="validate">
-        <.label>Name (optional)</.label>
-        <.input type="text" field={@form[:name]} placeholder="Name" />
+        <div>
+          <.label>Name (optional)</.label>
+          <.input type="text" field={@form[:name]} placeholder="Name" />
+        </div>
 
-        <.label>Date</.label>
-        <.input type="text" field={@form[:date]} placeholder="YYYY-MM-DD" />
+        <div>
+          <.label>Date</.label>
+          <.input type="text" field={@form[:date]} placeholder="YYYY-MM-DD" />
+        </div>
 
         <:actions>
           <.button>Save</.button>
@@ -45,7 +49,7 @@ defmodule TidetrackerWeb.Admin.MeetLive do
     {:noreply, assign(socket, form: form)}
   end
 
-  def handle_event("submit", params, socket) do
+  def handle_event("submit", %{"form" => params}, socket) do
     socket =
       case AshPhoenix.Form.submit(socket.assigns.form, params: params) do
         {:ok, meet} ->
@@ -55,6 +59,7 @@ defmodule TidetrackerWeb.Admin.MeetLive do
 
         {:error, form} ->
           assign(socket, form: form)
+          |> put_flash(:error, "Error updating meet")
       end
 
     {:noreply, socket}

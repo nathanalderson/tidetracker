@@ -15,9 +15,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "brand-lighter": "##a78bfa",
+        "brand-lighter": "#a78bfa",
         "brand": "#7c3aed",
         "brand-darker": "#4c1d95",
+        "orange": "#ff0d0d",
+        "orange-darker": "#ff810d"
       }
     },
     fontFamily: {
