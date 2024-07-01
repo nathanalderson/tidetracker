@@ -404,7 +404,7 @@ defmodule TidetrackerWeb.CoreComponents do
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
           "block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset focus:fing-2 focus:ring-inset sm:text-sm sm:leading-6",
-          @errors == [] && "ring-white/10 focus:right-brand",
+          @errors == [] && "ring-white/10 focus:ring-brand",
           @errors != [] && "ring-orange/60 focus:ring-orange"
         ]}
         {@rest}
