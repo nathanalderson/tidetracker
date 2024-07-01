@@ -53,8 +53,8 @@ defmodule Tidetracker.Meets.Meet do
 
     update :update do
       accept :*
-      argument :location, :map
-      argument :teams, {:array, :map}
+      argument :location, :map, allow_nil?: true
+      argument :teams, {:array, :map}, allow_nil?: true
       change manage_relationship(:location, :location, type: :append_and_remove)
       change manage_relationship(:teams, :teams, type: :append_and_remove)
     end
