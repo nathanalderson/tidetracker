@@ -68,7 +68,7 @@ defmodule TidetrackerWeb do
 
   def component do
     quote do
-      use Phoenix.Component
+      use Phoenix.Component, global_prefixes: ~w(x-)
 
       unquote(html_helpers())
     end
@@ -76,7 +76,7 @@ defmodule TidetrackerWeb do
 
   def html do
     quote do
-      use Phoenix.Component
+      use Phoenix.Component, global_prefixes: ~w(x-)
 
       # Import convenience functions from controllers
       import Phoenix.Controller,

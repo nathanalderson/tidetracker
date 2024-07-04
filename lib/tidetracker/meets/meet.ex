@@ -40,6 +40,7 @@ defmodule Tidetracker.Meets.Meet do
   code_interface do
     define :list, action: :read
     define :update, action: :update
+    define :add_team, action: :add_team, args: [:team_id]
   end
 
   actions do
@@ -57,6 +58,11 @@ defmodule Tidetracker.Meets.Meet do
       argument :teams, {:array, :map}, allow_nil?: true
       change manage_relationship(:location, :location, type: :append_and_remove)
       change manage_relationship(:teams, :teams, type: :append_and_remove)
+    end
+
+    update :add_team do
+      argument :team_id, :integer, allow_nil?: false
+      change manage_relationship(:team_id, :teams, type: :append)
     end
   end
 end

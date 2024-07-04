@@ -35,6 +35,10 @@ defmodule Tidetracker.Meets.Team do
     calculate :description, :string, expr("#{home_pool.name} #{name}")
   end
 
+  code_interface do
+    define :list, action: :read
+  end
+
   actions do
     defaults [:read, :destroy, update: :*]
 

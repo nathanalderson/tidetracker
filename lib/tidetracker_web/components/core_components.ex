@@ -14,7 +14,7 @@ defmodule TidetrackerWeb.CoreComponents do
 
   Icons are provided by [heroicons](https://heroicons.com). See `icon/1` for usage.
   """
-  use Phoenix.Component
+  use Phoenix.Component, global_prefixes: ~w(x-)
 
   alias Phoenix.LiveView.JS
   import TidetrackerWeb.Gettext
@@ -361,7 +361,7 @@ defmodule TidetrackerWeb.CoreComponents do
       <select
         id={@id}
         name={@name}
-        class="mt-2 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-zinc-400 focus:ring-0 sm:text-sm"
+        class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 bg-white/5 text-white ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-brand sm:text-sm sm:leading-6"
         multiple={@multiple}
         {@rest}
       >
@@ -403,7 +403,7 @@ defmodule TidetrackerWeb.CoreComponents do
         id={@id}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          "block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset focus:fing-2 focus:ring-inset sm:text-sm sm:leading-6",
+          "block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6",
           @errors == [] && "ring-white/10 focus:ring-brand",
           @errors != [] && "ring-orange/60 focus:ring-orange"
         ]}

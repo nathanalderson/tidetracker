@@ -2,10 +2,9 @@ defmodule TidetrackerWeb.Admin.MeetLive do
   use TidetrackerWeb, :live_view
   require Logger
   alias Tidetracker.Meets.Meet
+  alias Tidetracker.Meets.Team
 
   def render(assigns) do
-    dbg(assigns.form.errors)
-
     ~H"""
     <div class="mx-2 my-12 sm:my-20">
       <h2 class="font-serif font-bold text-2xl text-brand drop-shadow-lg"><%= @meet.description %></h2>
@@ -25,6 +24,8 @@ defmodule TidetrackerWeb.Admin.MeetLive do
           <ul class="flex flex-col gap-y-2">
             <.card :for={team <- @meet.teams} team={team} />
           </ul>
+          <.input type="select" name="new_team" options={@candidate_teams} value={@new_team} />
+          <.button phx-click="add_team" class="mt-2">Add Team</.button>
         </div>
 
         <:actions>
@@ -58,12 +59,18 @@ defmodule TidetrackerWeb.Admin.MeetLive do
       |> assign(back_link: [patch: ~p"/admin"])
       |> assign(meet: meet)
       |> assign(form: AshPhoenix.Form.for_update(meet, :update) |> to_form())
+      |> assign(candidate_teams: Team.list!() |> Enum.map(&{&1.description, &1.id}))
+      |> assign(new_team: nil)
 
     {:ok, socket}
   end
 
   def handle_params(_params, _uri, socket) do
     {:noreply, socket}
+  end
+
+  def handle_event("validate", %{"_target" => ["new_team"], "new_team" => team_id}, socket) do
+    {:noreply, assign(socket, new_team: team_id |> String.to_integer())}
   end
 
   def handle_event("validate", %{"form" => params}, socket) do
@@ -85,5 +92,11 @@ defmodule TidetrackerWeb.Admin.MeetLive do
       end
 
     {:noreply, socket}
+  end
+
+  def handle_event("add_team", _params, socket) do
+    meet = socket.assigns.meet
+    {:ok, updated_meet} = Meet.add_team(meet, socket.assigns.new_team) |> dbg
+    {:noreply, assign(socket, meet: updated_meet)}
   end
 end
