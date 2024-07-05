@@ -22,10 +22,19 @@ defmodule TidetrackerWeb.Admin.MeetLive do
         <div>
           <.label>Teams</.label>
           <ul class="flex flex-col gap-y-2">
-            <.card :for={team <- @meet.teams} team={team} />
+            <.inputs_for :let={fp} field={@form[:teams]}>
+              <div class="flex gap-x-2">
+                <.card team={fp.data} />
+                <.button type="button" phx-click="remove_form" phx-value-path={fp.name} color={:caution}>
+                  <.icon name="hero-trash" class="w-5 h-5" />
+                </.button>
+              </div>
+            </.inputs_for>
           </ul>
+          <%!--
           <.input type="select" name="new_team" options={@candidate_teams} value={@new_team} />
           <.button phx-click="add_team" class="mt-2">Add Team</.button>
+          --%>
         </div>
 
         <:actions>
@@ -58,7 +67,21 @@ defmodule TidetrackerWeb.Admin.MeetLive do
       socket
       |> assign(back_link: [patch: ~p"/admin"])
       |> assign(meet: meet)
-      |> assign(form: AshPhoenix.Form.for_update(meet, :update) |> to_form())
+      |> assign(
+        form:
+          AshPhoenix.Form.for_update(meet, :update,
+            forms: [
+              teams: [
+                type: :list,
+                data: meet.teams,
+                resource: Team,
+                create_action: :create,
+                update_action: :update
+              ]
+            ]
+          )
+          |> to_form()
+      )
       |> assign(candidate_teams: Team.list!() |> Enum.map(&{&1.description, &1.id}))
       |> assign(new_team: nil)
 
@@ -94,9 +117,13 @@ defmodule TidetrackerWeb.Admin.MeetLive do
     {:noreply, socket}
   end
 
-  def handle_event("add_team", _params, socket) do
-    meet = socket.assigns.meet
-    {:ok, updated_meet} = Meet.add_team(meet, socket.assigns.new_team) |> dbg
-    {:noreply, assign(socket, meet: updated_meet)}
+  def handle_event("add_form", %{"path" => path}, socket) do
+    form = AshPhoenix.Form.add_form(socket.assigns.form, path)
+    {:noreply, assign(socket, form: form)}
+  end
+
+  def handle_event("remove_form", %{"path" => path}, socket) do
+    form = AshPhoenix.Form.remove_form(socket.assigns.form, path)
+    {:noreply, assign(socket, form: form)}
   end
 end

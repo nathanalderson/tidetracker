@@ -17,6 +17,7 @@ defmodule TidetrackerWeb.CoreComponents do
   use Phoenix.Component, global_prefixes: ~w(x-)
 
   alias Phoenix.LiveView.JS
+  alias TidetrackerWeb.Utils
   import TidetrackerWeb.Gettext
 
   @doc """
@@ -223,6 +224,7 @@ defmodule TidetrackerWeb.CoreComponents do
   attr :type, :string, default: nil
   attr :class, :string, default: nil
   attr :rest, :global, include: ~w(disabled form name value)
+  attr :color, :atom, values: [:brand, :caution], default: :brand
 
   slot :inner_block, required: true
 
@@ -232,10 +234,10 @@ defmodule TidetrackerWeb.CoreComponents do
       type={@type}
       class={[
         "phx-submit-loading:opacity-75 rounded-md py-2.5 px-3.5",
-        "bg-gradient-to-r from-violet-900 to-violet-600",
-        "hover:from-violet-800 hover:to-violet-500",
         "text-sm font-semibold shadow-sm leading-6 text-white active:text-white/80",
         "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400",
+        "hover:opacity-80",
+        button_colors(@color),
         @class
       ]}
       {@rest}
@@ -244,6 +246,9 @@ defmodule TidetrackerWeb.CoreComponents do
     </button>
     """
   end
+
+  defp button_colors(:brand), do: "#{Utils.brand_bg_gradient()}"
+  defp button_colors(:caution), do: "#{Utils.orange_bg_gradient()}"
 
   attr :url, :string, default: nil
   attr :class, :string, default: nil
