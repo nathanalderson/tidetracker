@@ -40,6 +40,8 @@ defmodule TidetrackerWeb.Admin.MeetLive do
           <.button class="w-full max-w-sm">Save</.button>
         </:actions>
       </.simple_form>
+
+      <.upload_heatsheet uploads={@uploads} />
     </div>
     """
   end
@@ -65,6 +67,31 @@ defmodule TidetrackerWeb.Admin.MeetLive do
     "border border-1 border-white/5 border-l-brand border-l-8"
   end
 
+  defp upload_heatsheet(assigns) do
+    ~H"""
+    <form
+      id="upload-form"
+      class="mt-12"
+      phx-submit="heatsheet_submit"
+      phx-change="heatsheet_validate"
+      phx-drop-target={@uploads.heatsheet.ref}
+    >
+      <div class="pb-5">
+        <h3 class="text-base font-semibold leading-6 text-gray-100">Upload Heatsheet</h3>
+        <p class="mt-2 max-w-4xl text-sm text-gray-500">
+          Upload a CSV file exported from Meet Manager to load race and swimmer information for this meet.
+        </p>
+      </div>
+
+      <.live_file_input upload={@uploads.heatsheet} />
+
+      <.button type="submit" class="mt-2">
+        <.icon name="hero-arrow-up-on-square" class="h-5 w-5" /> Submit
+      </.button>
+    </form>
+    """
+  end
+
   def mount(params, _session, socket) do
     meet = Ash.get!(Meet, params["meet_id"])
 
@@ -74,6 +101,7 @@ defmodule TidetrackerWeb.Admin.MeetLive do
       |> set_meet(meet)
       |> assign(candidate_teams: Team.candidates_for_meet!(meet.id) |> Enum.map(&{&1.description, &1.id}))
       |> assign(new_team: nil)
+      |> allow_upload(:heatsheet, accept: ~w(.csv), max_entries: 1, auto_upload: true, max_file_size: 100_000)
 
     {:ok, socket}
   end
@@ -111,6 +139,20 @@ defmodule TidetrackerWeb.Admin.MeetLive do
   def handle_event("remove_form", %{"path" => path}, socket) do
     form = AshPhoenix.Form.remove_form(socket.assigns.form, path)
     {:noreply, assign(socket, form: form)}
+  end
+
+  def handle_event("heatsheet_validate", _params, socket) do
+    {:noreply, socket}
+  end
+
+  def handle_event("heatsheet_submit", _params, socket) do
+    [result] =
+      consume_uploaded_entries(socket, :heatsheet, fn %{path: path}, _entry ->
+        data = File.read!(path)
+        {:ok, %{swimmers_found: 0, races_found: 0}}
+      end)
+
+    {:noreply, put_flash(socket, :info, "Swimmers found: #{result.swimmers_found}\nRaces found: #{result.races_found}")}
   end
 
   defp set_meet(socket, meet) do
