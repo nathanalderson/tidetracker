@@ -6,12 +6,12 @@ defmodule TidetrackerWeb.Admin.MeetLive do
 
   def render(assigns) do
     ~H"""
-    <div class="mx-2 my-12 sm:my-20">
+    <div class="mx-2 my-12 max-w-4xl sm:my-20">
       <h2 class="font-serif font-bold text-2xl text-brand drop-shadow-lg"><%= @meet.description %></h2>
       <.simple_form for={@form} phx-submit="submit" phx-change="validate">
         <div>
           <.label for="name">Name (optional)</.label>
-          <.input id="name" type="text" field={@form[:name]} placeholder="Name" />
+          <.input id="name" type="text" field={@form[:name]} />
         </div>
 
         <div>
@@ -31,13 +31,13 @@ defmodule TidetrackerWeb.Admin.MeetLive do
               </div>
             </.inputs_for>
           </ul>
+          <.button type="button" class="mt-2" phx-click="add_form" phx-value-path={@form[:teams].name}>
+            <.icon name="hero-plus" class="h-5 w-5" />
+          </.button>
         </div>
 
         <:actions>
-          <.button type="button" phx-click="add_form" phx-value-path={@form[:teams].name}>
-            <.icon name="hero-plus-circle" class="h-5 w-5" /> Add Team
-          </.button>
-          <.button><.icon name="hero-check-circle" class="h-5 w-5" />Save</.button>
+          <.button class="w-full max-w-sm">Save</.button>
         </:actions>
       </.simple_form>
     </div>

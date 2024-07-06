@@ -233,7 +233,7 @@ defmodule TidetrackerWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "flex items-center gap-1",
+        "flex items-center gap-1 justify-center",
         "phx-submit-loading:opacity-75 rounded-md py-2.5 px-3.5",
         "text-sm font-semibold shadow-sm leading-6 text-white active:text-white/80",
         "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400",
