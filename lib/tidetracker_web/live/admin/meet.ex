@@ -46,7 +46,7 @@ defmodule TidetrackerWeb.Admin.MeetLive do
 
   defp card(assigns = %{team: %{id: nil}}) do
     ~H"""
-    <.input type="select" name={@form[:id].name} options={@candidate_teams} value={nil} />
+    <.input type="select" field={@form[:id]} options={@candidate_teams} prompt="Select a team" />
     """
   end
 
