@@ -72,7 +72,7 @@ defmodule TidetrackerWeb.Admin.MeetLive do
       socket
       |> assign(back_link: [patch: ~p"/admin"])
       |> set_meet(meet)
-      |> assign(candidate_teams: Team.list!() |> Enum.map(&{&1.description, &1.id}))
+      |> assign(candidate_teams: Team.candidates_for_meet!(meet.id) |> Enum.map(&{&1.description, &1.id}))
       |> assign(new_team: nil)
 
     {:ok, socket}

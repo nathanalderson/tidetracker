@@ -37,10 +37,16 @@ defmodule Tidetracker.Meets.Team do
 
   code_interface do
     define :list, action: :read
+    define :candidates_for_meet, action: :meet_candidates, args: [:meet_id]
   end
 
   actions do
     defaults [:read, :destroy, update: :*]
+
+    read :meet_candidates do
+      argument :meet_id, :integer
+      filter expr(not exists(meets, id == ^arg(:meet_id)))
+    end
 
     create :create do
       accept :*
