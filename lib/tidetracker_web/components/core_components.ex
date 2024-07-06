@@ -233,6 +233,7 @@ defmodule TidetrackerWeb.CoreComponents do
     <button
       type={@type}
       class={[
+        "flex items-center gap-1",
         "phx-submit-loading:opacity-75 rounded-md py-2.5 px-3.5",
         "text-sm font-semibold shadow-sm leading-6 text-white active:text-white/80",
         "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-400",
@@ -361,12 +362,12 @@ defmodule TidetrackerWeb.CoreComponents do
 
   def input(%{type: "select"} = assigns) do
     ~H"""
-    <div>
-      <.label for={@id}><%= @label %></.label>
+    <div class="w-full flex items-center">
+      <.label :if={@label} class={@label && "mb-2"} for={@id}><%= @label %></.label>
       <select
         id={@id}
         name={@name}
-        class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 bg-white/5 text-white ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-brand sm:text-sm sm:leading-6"
+        class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 bg-white/5 text-white ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-brand sm:text-sm sm:leading-6"
         multiple={@multiple}
         {@rest}
       >
@@ -380,7 +381,7 @@ defmodule TidetrackerWeb.CoreComponents do
 
   def input(%{type: "textarea"} = assigns) do
     ~H"""
-    <div>
+    <div class="w-full flex items-center">
       <.label for={@id}><%= @label %></.label>
       <textarea
         id={@id}
@@ -400,7 +401,7 @@ defmodule TidetrackerWeb.CoreComponents do
   # All other inputs text, datetime-local, url, password, etc. are handled here...
   def input(assigns) do
     ~H"""
-    <div>
+    <div class="w-full flex items-center">
       <.label for={@id}><%= @label %></.label>
       <input
         type={@type}

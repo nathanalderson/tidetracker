@@ -22,26 +22,31 @@ defmodule TidetrackerWeb.Admin.MeetLive do
         <div>
           <.label>Teams</.label>
           <ul class="flex flex-col gap-y-2">
-            <.inputs_for :let={fp} field={@form[:teams]}>
-              <div class="flex gap-x-2">
-                <.card team={fp.data} />
-                <.button type="button" phx-click="remove_form" phx-value-path={fp.name} color={:caution}>
+            <.inputs_for :let={team_form} field={@form[:teams]}>
+              <div class="flex gap-x-2 items-center">
+                <.card team={team_form.data} form={team_form} candidate_teams={@candidate_teams} />
+                <.button type="button" phx-click="remove_form" phx-value-path={team_form.name} color={:caution}>
                   <.icon name="hero-trash" class="w-5 h-5" />
                 </.button>
               </div>
             </.inputs_for>
           </ul>
-          <%!--
-          <.input type="select" name="new_team" options={@candidate_teams} value={@new_team} />
-          <.button phx-click="add_team" class="mt-2">Add Team</.button>
-          --%>
         </div>
 
         <:actions>
-          <.button>Save</.button>
+          <.button type="button" phx-click="add_form" phx-value-path={@form[:teams].name}>
+            <.icon name="hero-plus-circle" class="h-5 w-5" /> Add Team
+          </.button>
+          <.button><.icon name="hero-check-circle" class="h-5 w-5" />Save</.button>
         </:actions>
       </.simple_form>
     </div>
+    """
+  end
+
+  defp card(assigns = %{team: nil}) do
+    ~H"""
+    <.input type="select" name={@form[:id].name} options={@candidate_teams} value={nil} />
     """
   end
 
@@ -90,10 +95,6 @@ defmodule TidetrackerWeb.Admin.MeetLive do
 
   def handle_params(_params, _uri, socket) do
     {:noreply, socket}
-  end
-
-  def handle_event("validate", %{"_target" => ["new_team"], "new_team" => team_id}, socket) do
-    {:noreply, assign(socket, new_team: team_id |> String.to_integer())}
   end
 
   def handle_event("validate", %{"form" => params}, socket) do
