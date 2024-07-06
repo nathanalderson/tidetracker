@@ -44,7 +44,7 @@ defmodule TidetrackerWeb.Admin.MeetLive do
     """
   end
 
-  defp card(assigns = %{team: nil}) do
+  defp card(assigns = %{team: %{id: nil}}) do
     ~H"""
     <.input type="select" name={@form[:id].name} options={@candidate_teams} value={nil} />
     """
@@ -71,22 +71,7 @@ defmodule TidetrackerWeb.Admin.MeetLive do
     socket =
       socket
       |> assign(back_link: [patch: ~p"/admin"])
-      |> assign(meet: meet)
-      |> assign(
-        form:
-          AshPhoenix.Form.for_update(meet, :update,
-            forms: [
-              teams: [
-                type: :list,
-                data: meet.teams,
-                resource: Team,
-                create_action: :create,
-                update_action: :update
-              ]
-            ]
-          )
-          |> to_form()
-      )
+      |> set_meet(meet)
       |> assign(candidate_teams: Team.list!() |> Enum.map(&{&1.description, &1.id}))
       |> assign(new_team: nil)
 
@@ -107,7 +92,7 @@ defmodule TidetrackerWeb.Admin.MeetLive do
       case AshPhoenix.Form.submit(socket.assigns.form, params: params) do
         {:ok, meet} ->
           socket
-          |> assign(meet: meet |> Ash.reload!())
+          |> set_meet(meet |> Ash.reload!())
           |> put_flash(:info, "Meet updated")
 
         {:error, form} ->
@@ -126,5 +111,25 @@ defmodule TidetrackerWeb.Admin.MeetLive do
   def handle_event("remove_form", %{"path" => path}, socket) do
     form = AshPhoenix.Form.remove_form(socket.assigns.form, path)
     {:noreply, assign(socket, form: form)}
+  end
+
+  defp set_meet(socket, meet) do
+    socket
+    |> assign(meet: meet)
+    |> assign(
+      form:
+        AshPhoenix.Form.for_update(meet, :update,
+          forms: [
+            teams: [
+              type: :list,
+              data: meet.teams,
+              resource: Team,
+              create_action: :update,
+              update_action: :update
+            ]
+          ]
+        )
+        |> to_form()
+    )
   end
 end
