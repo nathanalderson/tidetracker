@@ -13,6 +13,12 @@ defmodule TidetrackerWeb.Admin.MeetsLive do
 
   defp meets_new(assigns) do
     ~H"""
+    <div class="w-full px-2">
+      <.button type="button" class="w-full" phx-click="create_meet">
+        Create Meet
+      </.button>
+    </div>
+
     <ul
       role="list"
       class="mx-auto divide-y divide-gray-700 overflow-hidden bg-gray-900/50 shadow-sm ring-1 ring-gray-900/5 max-w-7xl sm:rounded-xl"
@@ -27,9 +33,9 @@ defmodule TidetrackerWeb.Admin.MeetsLive do
               </a>
             </p>
             <p class="mt-1 flex text-xs leading-5 text-gray-400">
-              <a href="mailto:leslie.alexander@example.com" class="relative truncate hover:underline">
+              <.link navigate="mailto:leslie.alexander@example.com" class="relative truncate hover:underline">
                 <time datetime={meet.date}><%= meet.date %></time>
-              </a>
+              </.link>
             </p>
           </div>
         </div>
@@ -50,6 +56,21 @@ defmodule TidetrackerWeb.Admin.MeetsLive do
   end
 
   def handle_params(_params, _uri, socket) do
+    {:noreply, socket}
+  end
+
+  def handle_event("create_meet", _params, socket) do
+    new_meet =
+      Meet
+      |> Ash.Changeset.for_create(:create, %{date: Timex.today()})
+      |> Ash.create!()
+
+    socket =
+      socket
+      |> update(:meets, fn meets -> [new_meet | meets] end)
+      |> put_flash(:info, :created)
+      |> push_navigate(to: ~p"/admin/meet/#{new_meet.id}")
+
     {:noreply, socket}
   end
 end

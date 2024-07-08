@@ -30,7 +30,6 @@ defmodule Tidetracker.Meets.Calculations.MeetDescription do
     end
   end
 
-  defp description(location, _) do
-    "@#{location.name}"
-  end
+  defp description(location, _) when not is_nil(location), do: "@#{location.name}"
+  defp description(_, _), do: "New Meet"
 end

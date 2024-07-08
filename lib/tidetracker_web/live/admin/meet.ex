@@ -6,9 +6,9 @@ defmodule TidetrackerWeb.Admin.MeetLive do
 
   def render(assigns) do
     ~H"""
-    <div class="mx-2 my-12 max-w-4xl sm:my-20">
-      <h2 class="font-serif font-bold text-2xl text-brand drop-shadow-lg"><%= @meet.description %></h2>
+    <div class="mx-2 max-w-4xl sm:my-12 flex flex-col gap-y-12">
       <.simple_form for={@form} phx-submit="submit" phx-change="validate">
+        <h2 class="font-serif font-bold text-2xl text-brand drop-shadow-lg"><%= @meet.description %></h2>
         <div>
           <.label for="name">Name (optional)</.label>
           <.input id="name" type="text" field={@form[:name]} />
@@ -42,6 +42,7 @@ defmodule TidetrackerWeb.Admin.MeetLive do
       </.simple_form>
 
       <.upload_heatsheet uploads={@uploads} />
+      <.danger_zone />
     </div>
     """
   end
@@ -71,7 +72,6 @@ defmodule TidetrackerWeb.Admin.MeetLive do
     ~H"""
     <form
       id="upload-form"
-      class="mt-12"
       phx-submit="heatsheet_submit"
       phx-change="heatsheet_validate"
       phx-drop-target={@uploads.heatsheet.ref}
@@ -89,6 +89,22 @@ defmodule TidetrackerWeb.Admin.MeetLive do
         <.icon name="hero-arrow-up-on-square" class="h-5 w-5" /> Submit
       </.button>
     </form>
+    """
+  end
+
+  defp danger_zone(assigns) do
+    ~H"""
+    <div class="flex flex-col gap-2">
+      <h3 class="text-base font-semibold leading-6 text-gray-100">Danger Zone</h3>
+      <.button
+        type="button"
+        phx-click="delete_meet"
+        color={:caution}
+        data-confirm="This will delete the meet and all associated race and swimmer data. Are you sure?"
+      >
+        Delete Meet
+      </.button>
+    </div>
     """
   end
 
@@ -153,6 +169,17 @@ defmodule TidetrackerWeb.Admin.MeetLive do
       end)
 
     {:noreply, put_flash(socket, :info, "Swimmers found: #{result.swimmers_found}\nRaces found: #{result.races_found}")}
+  end
+
+  def handle_event("delete_meet", _params, socket) do
+    Ash.destroy!(socket.assigns.meet)
+
+    socket =
+      socket
+      |> put_flash(:info, "Meet deleted")
+      |> push_navigate(to: ~p"/admin/meets")
+
+    {:noreply, socket}
   end
 
   defp set_meet(socket, meet) do
