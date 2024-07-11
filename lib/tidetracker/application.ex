@@ -10,11 +10,10 @@ defmodule Tidetracker.Application do
     children = [
       TidetrackerWeb.Telemetry,
       Tidetracker.Repo,
-      {Ecto.Migrator,
-        repos: Application.fetch_env!(:tidetracker, :ecto_repos),
-        skip: skip_migrations?()},
+      {Ecto.Migrator, repos: Application.fetch_env!(:tidetracker, :ecto_repos), skip: skip_migrations?()},
       {DNSCluster, query: Application.get_env(:tidetracker, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Tidetracker.PubSub},
+      {AshAuthentication.Supervisor, otp_app: :tidetracker},
       # Start the Finch HTTP client for sending emails
       {Finch, name: Tidetracker.Finch},
       # Start a worker by calling: Tidetracker.Worker.start_link(arg)

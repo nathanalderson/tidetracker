@@ -19,6 +19,7 @@ defmodule TidetrackerWeb.Components.Navbar do
   attr :pages, :list, default: []
   attr :hide_nav, :boolean, default: false
   attr :back_link, :any
+  attr :current_user, :any, default: nil
 
   def navbar(assigns) do
     ~H"""
@@ -43,10 +44,7 @@ defmodule TidetrackerWeb.Components.Navbar do
           </a>
         </div>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-          <button type="button" class="relative -m-2.5 p-2.5 p-1 text-gray-400 hover:text-white">
-            <span class="sr-only">Settings</span>
-            <.icon name="hero-cog-6-tooth" class="h-6 w-6" />
-          </button>
+          <.account_info current_user={@current_user} />
         </div>
       </nav>
       <!-- Mobile menu -->
@@ -97,6 +95,22 @@ defmodule TidetrackerWeb.Components.Navbar do
         Tidetracker
       </span>
     </a>
+    """
+  end
+
+  defp account_info(assigns) do
+    ~H"""
+    <div :if={@current_user} class="flex items-center gap-2">
+      <span class="text-sm font-medium text-brand rounded-md">
+        <%= @current_user.email %>
+      </span>
+      <a
+        href={~p"/logout"}
+        class="flex items-center text-sm font-semibold leading-6 text-brand hover:text-brand-lighter active:text-brand/70"
+      >
+        <.icon name="hero-arrow-right-start-on-rectangle-micro" class="h-5 w-5" />
+      </a>
+    </div>
     """
   end
 end

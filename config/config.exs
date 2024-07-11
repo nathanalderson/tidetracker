@@ -23,7 +23,7 @@ config :tidetracker, TidetrackerWeb.Endpoint,
   live_view: [signing_salt: "tUrsUbmI"]
 
 # Ash
-config :tidetracker, :ash_domains, [Tidetracker.Meets]
+config :tidetracker, :ash_domains, [Tidetracker.Meets, Tidetracker.Accounts]
 config :tidetracker, :ash_apis, [Tidetracker.Meets]
 
 config :ash, :default_belongs_to_type, :integer

@@ -5,7 +5,7 @@ defmodule TidetrackerWeb.Admin.MeetsLive do
 
   def render(assigns) do
     ~H"""
-    <div class="my-8 sm:my-20">
+    <div class="my-8 sm:my-20 max-w-7xl mx-auto ">
       <.meets_new meets={@meets} />
     </div>
     """
@@ -13,7 +13,7 @@ defmodule TidetrackerWeb.Admin.MeetsLive do
 
   defp meets_new(assigns) do
     ~H"""
-    <div class="w-full px-2">
+    <div class="w-full px-2 mb-8 max-w-lg mx-auto">
       <.button type="button" class="w-full" phx-click="create_meet">
         Create Meet
       </.button>
@@ -21,7 +21,7 @@ defmodule TidetrackerWeb.Admin.MeetsLive do
 
     <ul
       role="list"
-      class="mx-auto divide-y divide-gray-700 overflow-hidden bg-gray-900/50 shadow-sm ring-1 ring-gray-900/5 max-w-7xl sm:rounded-xl"
+      class="divide-y divide-gray-700 overflow-hidden bg-gray-900/50 shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl"
     >
       <li :for={meet <- @meets} class="relative flex justify-between gap-x-6 px-4 py-5 hover:bg-gray-900/60 sm:px-6">
         <div class="flex min-w-0 gap-x-4">

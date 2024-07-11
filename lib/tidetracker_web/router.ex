@@ -1,5 +1,6 @@
 defmodule TidetrackerWeb.Router do
   use TidetrackerWeb, :router
+  use AshAuthentication.Phoenix.Router
   import AshAdmin.Router
 
   pipeline :browser do
@@ -9,10 +10,12 @@ defmodule TidetrackerWeb.Router do
     plug :put_root_layout, html: {TidetrackerWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :load_from_session
   end
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :load_from_bearer
   end
 
   scope "/", TidetrackerWeb do
@@ -21,12 +24,33 @@ defmodule TidetrackerWeb.Router do
     live_session :default do
       live "/", HomeLive
     end
+
+    sign_in_route path: "/login",
+                  register_path: "/register",
+                  reset_path: "/reset",
+                  on_mount: [{TidetrackerWeb.Auth.LiveUserAuth, :live_no_user}],
+                  layout: {TidetrackerWeb.Layouts, :barebones},
+                  overrides: [TidetrackerWeb.Auth.Overrides, AshAuthentication.Phoenix.Overrides.Default]
+
+    sign_out_route AuthController, "/logout",
+      layout: {TidetrackerWeb.Layouts, :barebones},
+      overrides: [TidetrackerWeb.Auth.Overrides, AshAuthentication.Phoenix.Overrides.Default]
+
+    auth_routes_for Tidetracker.Accounts.User,
+      to: AuthController,
+      layout: {TidetrackerWeb.Layouts, :barebones},
+      overrides: [TidetrackerWeb.Auth.Overrides, AshAuthentication.Phoenix.Overrides.Default]
+
+    reset_route layout: {TidetrackerWeb.Layouts, :barebones},
+                overrides: [TidetrackerWeb.Auth.Overrides, AshAuthentication.Phoenix.Overrides.Default]
   end
 
   scope "/admin", TidetrackerWeb.Admin, assigns: %{page_title: "Admin"} do
     pipe_through [:browser]
 
-    live_session :admin, layout: {TidetrackerWeb.Layouts, :admin} do
+    ash_authentication_live_session :admin,
+      on_mount: {TidetrackerWeb.Auth.LiveUserAuth, :live_user_required},
+      layout: {TidetrackerWeb.Layouts, :admin} do
       live "/", AdminLive
       live "/meets", MeetsLive
       live "/meet/:meet_id", MeetLive, :view
@@ -36,7 +60,20 @@ defmodule TidetrackerWeb.Router do
 
   scope "/" do
     pipe_through :browser
-    ash_admin "/ash-admin"
+
+    ash_admin_csp_nonce_assign_key = %{
+      img: "ash_admin-Ed55GFnX",
+      style: "ash_admin-Ed55GFnX",
+      script: "ash_admin-Ed55GFnX"
+    }
+
+    ash_authentication_live_session :ash_admin,
+      on_mount: {TidetrackerWeb.Auth.LiveUserAuth, :live_user_required},
+      session: {AshAdmin.Router, :__session__, [%{"prefix" => "/ash-admin"}, []]},
+      root_layout: {AshAdmin.Layouts, :root} do
+      live "/ash-admin/*route", AshAdmin.PageLive, :page,
+        private: %{live_socket_path: "/live", ash_admin_csp_nonce: ash_admin_csp_nonce_assign_key}
+    end
   end
 
   # Other scopes may use custom stacks.

@@ -2,6 +2,7 @@
   hide_nav={Map.get(assigns, :hide_nav, false)}
   pages={Map.get(assigns, :nav_pages, Components.Navbar.admin_pages())}
   back_link={Map.get(assigns, :back_link, nil)}
+  current_user={Map.get(assigns, :current_user) |> dbg}
 />
 <.flash_group flash={@flash} />
 <Components.Background.default>

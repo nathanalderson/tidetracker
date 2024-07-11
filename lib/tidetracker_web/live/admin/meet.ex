@@ -164,7 +164,7 @@ defmodule TidetrackerWeb.Admin.MeetLive do
   def handle_event("heatsheet_submit", _params, socket) do
     [result] =
       consume_uploaded_entries(socket, :heatsheet, fn %{path: path}, _entry ->
-        data = File.read!(path)
+        _data = File.read!(path)
         {:ok, %{swimmers_found: 0, races_found: 0}}
       end)
 
