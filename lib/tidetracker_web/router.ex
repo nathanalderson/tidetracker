@@ -1,7 +1,6 @@
 defmodule TidetrackerWeb.Router do
   use TidetrackerWeb, :router
   use AshAuthentication.Phoenix.Router
-  import AshAdmin.Router
 
   pipeline :browser do
     plug :accepts, ["html"]

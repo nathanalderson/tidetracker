@@ -3,6 +3,8 @@ defmodule TidetrackerWeb.HomeLive do
   require Logger
   alias Tidetracker.Meets.Meet
 
+  @meet_preload [:location, :teams, :description]
+
   def render(assigns) do
     ~H"""
     <div class="py-24 sm:py-32 lg:pb-40">
@@ -32,21 +34,14 @@ defmodule TidetrackerWeb.HomeLive do
   end
 
   def mount(_params = %{"meet-id" => meet_id}, _session, socket) do
-    meet_id = meet_id |> String.to_integer()
-    query = [load: [:location, :teams, :description]]
-    meets = Meet.list!(query: query)
-
     socket =
-      case Ash.get(Meet, meet_id, query) do
+      case Ash.get(Meet, meet_id, load: @meet_preload) do
         {:ok, meet} ->
           socket
-          |> assign(pages: Components.Navbar.meet_pages())
-          |> assign(hide_nav: true)
-          |> assign(meets: meets)
+          |> assign_defaults()
           |> assign(meet: meet)
 
-        {:error, reason} ->
-          Logger.warning("Failed to load meet: #{inspect(reason)}")
+        {:error, _} ->
           redirect(socket, to: ~p"/")
       end
 
@@ -54,12 +49,20 @@ defmodule TidetrackerWeb.HomeLive do
   end
 
   def mount(_params, _session, socket) do
-    meet = Ash.read_first!(Meet)
-    {:ok, redirect(socket, to: ~p"/?meet-id=#{meet.id}")}
+    socket = assign_defaults(socket)
+    {:ok, socket}
   end
 
   def handle_params(_params, _uri, socket) do
     {:noreply, socket}
+  end
+
+  defp assign_defaults(socket) do
+    socket
+    |> assign(pages: Components.Navbar.meet_pages())
+    |> assign(hide_nav: true)
+    |> assign(meets: Meet.list!(query: [load: @meet_preload]))
+    |> assign(meet: nil)
   end
 
   def handle_event("select_meet", %{"select-meet" => meet_id}, socket) do

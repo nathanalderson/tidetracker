@@ -60,7 +60,8 @@ defmodule Tidetracker.MixProject do
       {:ash_admin, "~> 0.11.1"},
       {:ash_authentication, "~> 4.0"},
       {:ash_authentication_phoenix, "~> 2.0"},
-      {:timex, "~> 3.7"}
+      {:timex, "~> 3.7"},
+      {:csv, "~> 3.2"}
     ]
   end
 

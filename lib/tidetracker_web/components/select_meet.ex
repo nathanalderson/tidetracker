@@ -13,7 +13,7 @@ defmodule TidetrackerWeb.Components.SelectMeet do
       label="Select a meet"
       name="select-meet"
       items={to_items(@meets)}
-      selected={@selected.id}
+      selected={@selected && @selected.id}
       label_class={@label_class}
     />
     """
